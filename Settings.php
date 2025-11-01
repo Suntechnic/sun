@@ -4,6 +4,7 @@ namespace Sun;
 abstract class Settings
 {
 
+    protected const OPTION_CLASS = \Sun\Option::class;
 
     // может содержать дополнительные ключи для массива конфиг, 
     // где значения - это имена методов реализации этого класса
@@ -30,8 +31,7 @@ abstract class Settings
     public static function getOptionsInfo (): array
     {
         if (static::$_optionsinfo === false) { // @phpstan-ignore-line
-            static::$_optionsinfo = static::OPTIONS; // @phpstan-ignore-line
-
+            static::$_optionsinfo = [];
             // подключаем файлы опций
             $Path = $_SERVER['DOCUMENT_ROOT'].'/local/options';
             if (is_dir($Path)) {
@@ -139,7 +139,7 @@ abstract class Settings
     {
 
         $dctOption = static::getOptionInfo($Code);
-        $Value = Option::get(
+        $Value = static::OPTION_CLASS::get(
                 static::MODULE,
                 static::getOptionKey($Code),
                 $dctOption['default']
@@ -185,7 +185,7 @@ abstract class Settings
             $Value = (string)$Value;
         }
 
-        return Option::set(
+        return static::OPTION_CLASS::set(
                 static::MODULE,
                 static::getOptionKey($Code),
                 $Value
@@ -208,7 +208,7 @@ abstract class Settings
      */
     public static function delete (string $Code)
     {
-        return Option::delete(
+        return static::OPTION_CLASS::delete(
                 static::MODULE,
                 ['name' => static::getOptionKey($Code)]
             );
