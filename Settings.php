@@ -5,6 +5,7 @@ abstract class Settings
 {
 
     protected const OPTION_CLASS = \Sun\Option::class;
+    protected const MODULE = '.sun';
 
     // может содержать дополнительные ключи для массива конфиг, 
     // где значения - это имена методов реализации этого класса
